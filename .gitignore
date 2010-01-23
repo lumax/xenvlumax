@@ -7,6 +7,5 @@
 #!foo.html
 ## Ignore objects and archives.
 #*.[oa]
-make
 src
 stage

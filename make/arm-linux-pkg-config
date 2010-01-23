@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#declare -a PKG_CONFIGS
+
+PKG_CONFIG_ARRAY=(`type -a -P pkg-config`)
+PKG_CONFIG="${PKG_CONFIG_ARRAY[1]}"
+
+#ELDK_ROOT=`cat $TOPDIR/eldk-root`
+
+check_pipe_status() {
+    for i in  "${PIPESTATUS[@]}"; do
+	if test $i -ne 0; then
+	    exit $i
+	fi
+    done
+}
+
+if test -z "${SYSROOT}"; then
+    (
+	echo
+	echo
+	echo "pkg-config: missing \$SYSROOT environment variable"
+	echo
+	echo
+    ) >&2
+    exit 1
+fi
+
+#export PKG_CONFIG_LIBDIR=${SYSROOT}/lib/pkgconfig:${SYSROOT}/usr/lib/pkgconfig
+#export PKG_CONFIG_LIBDIR=${SYSROOT}/lib/pkgconfig:${SYSROOT}/usr/lib/pkgconfig:${ELDK_ROOT}/armVFP/usr/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=${SYSROOT}/lib/pkgconfig:${SYSROOT}/usr/local/lib/pkgconfig:${ELDK_ROOT}/arm/usr/local/lib/pkgconfig:${ELDK_ROOT}/arm/usr/lib/pkgconfig
+export PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+export PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+unset PKG_CONFIG_PATH
+
+found_var=false
+for ((i = 1; i <= ${#}; i++)); do
+    case "${!i}" in
+	--variable*)
+	    found_var=true
+	    ;;
+	*)
+	    ;;
+    esac
+done
+
+
+if ${found_var}; then
+#
+# if someone asks for a variable, if it looks like a path (starting with /)
+# prefix it with sysroot
+#
+#    ${PKG_CONFIG} "${@}" |
+    pkg-config "${@}" |
+    sed -e "s~^/~${SYSROOT}/~"
+else
+#
+# 1) protect already given sysroot
+# 2) add sysroot symbol to all absolute paths
+# 3) replace sysroot sign to sysroot path
+#
+#    ${PKG_CONFIG} "${@}" |
+    pkg-config "${@}" |
+    sed -e "s~\-L/*${SYSROOT}/*~-L=/~g; s~\-I/*${SYSROOT}/*~-I=/~g;" \
+	-e "s~\-L/~-L=/~g; s~\-I/~-I=/~g;"                       \
+	-e "s~\-L\=~-L${SYSROOT}~g; s~\-I\=~-I${SYSROOT}~g;"
+fi
+
+check_pipe_status
