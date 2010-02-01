@@ -1,6 +1,6 @@
 #!/bin/bash
 CURRENT_DIR=$PWD
-WORK_DIR="/home/lumax/xw"
+WORK_DIR="$HOME/xenvlumax"
 cd $WORK_DIR
 
 export MAKE_DIR="$WORK_DIR/make"
