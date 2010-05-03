@@ -3,6 +3,8 @@ CURRENT_DIR=$PWD
 WORK_DIR="$HOME/xenvlumax"
 cd $WORK_DIR
 
+export LUMAX_EXT="c"
+export LUMAX_COMPILER="gcc"
 export MAKE_DIR="$WORK_DIR/make"
 export ARCH=
 export CROSS_COMPILE=

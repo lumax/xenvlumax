@@ -1,7 +1,8 @@
 rm=/bin/rm -f
 
-CXX=${CROSS_COMPILE}gcc
-LINKER=${CROSS_COMPILE}gcc
+
+CXX=${CROSS_COMPILE}${LUMAX_COMPILER}
+LINKER=${CROSS_COMPILE}${LUMAX_COMPILER}
 LOADER=${CROSS_COMPILE}ldd
 FILE=file
 
@@ -33,10 +34,9 @@ LDFLAGS+=
 OBJS+=
 #$(PROJECT_NAME).o 
 
-.c.o:
+.$(LUMAX_EXT).o:
 	$(rm) $@
-	$(CXX) $(CFLAGS) -c $*.c
-#	@$(GREAT_CODE) -file-$*.c
+	$(CXX) $(CFLAGS) -c $*.$(LUMAX_EXT)
 
 all: clean $(EXE)
 
@@ -56,8 +56,16 @@ file_type:
 
 devpub:
 	ln -sf $(PROJECT_NAME).so.$(VERSION) $(PROJECT_NAME).so
-	mv -f $(PROJECT_NAME).so.$(VERSION) $(LIB_DIR)/$(PROJECT_NAME).so.$(VERSION)
+	cp -f $(PROJECT_NAME).so.$(VERSION) $(LIB_DIR)/$(PROJECT_NAME).so.$(VERSION)
 	mv -f $(PROJECT_NAME).so $(LIB_DIR)/$(PROJECT_NAME).so
 	rm -fR $(INCLUDE_DIR)/$(PROJECT_NAME)
 	mkdir -p $(INCLUDE_DIR)/$(PROJECT_NAME)
 	cp *.h $(INCLUDE_DIR)/$(PROJECT_NAME)/
+
+eldkpub: devpub
+	ln -sf $(PROJECT_NAME).so.$(VERSION) $(PROJECT_NAME).so
+	cp -f $(PROJECT_NAME).so.$(VERSION) $(ELDK_FS)/usr/local/lib/$(PROJECT_NAME).so.$(VERSION)
+	mv -f $(PROJECT_NAME).so $(ELDK_FS)/usr/local/lib/$(PROJECT_NAME).so
+	rm -fR $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)/$(PROJECT_NAME)
+	mkdir -p $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)/$(PROJECT_NAME)
+	cp *.h $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)/$(PROJECT_NAME)/
