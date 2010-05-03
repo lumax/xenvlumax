@@ -70,7 +70,7 @@ eldkpub: devpub
 	mkdir -p $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)
 	cp *.h $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)
 
-package: devpub
+libpackage: devpub
 #Packverzeichnis erzeugen
 	rm -fR $(STAGE)/pack/$(PROJECT_NAME)
 	mkdir -p $(STAGE)/pack/$(PROJECT_NAME)/usr/local/lib
