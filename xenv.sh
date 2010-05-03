@@ -6,7 +6,7 @@ cd $WORK_DIR
 export MAKE_DIR="$WORK_DIR/make"
 export ARCH=arm
 export CROSS_COMPILE=arm-linux-
-export ELDK_ROOT=/home/lumax/eldk
+export ELDK_ROOT=/home/sewerin/denx
 export ELDK_FS=$ELDK_ROOT/arm 
 export OS="LINUX"
 export STAGE="$WORK_DIR/stage/arm"
