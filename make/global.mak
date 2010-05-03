@@ -66,6 +66,21 @@ eldkpub: devpub
 	ln -sf $(PROJECT_NAME).so.$(VERSION) $(PROJECT_NAME).so
 	cp -f $(PROJECT_NAME).so.$(VERSION) $(ELDK_FS)/usr/local/lib/$(PROJECT_NAME).so.$(VERSION)
 	mv -f $(PROJECT_NAME).so $(ELDK_FS)/usr/local/lib/$(PROJECT_NAME).so
-	rm -fR $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)/$(PROJECT_NAME)
-	mkdir -p $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)/$(PROJECT_NAME)
-	cp *.h $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)/$(PROJECT_NAME)/
+	rm -fR $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)
+	mkdir -p $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)
+	cp *.h $(ELDK_FS)/usr/local/include/$(PROJECT_NAME)
+
+package: devpub
+#Packverzeichnis erzeugen
+	rm -fR $(STAGE)/pack/$(PROJECT_NAME)
+	mkdir -p $(STAGE)/pack/$(PROJECT_NAME)/usr/local/lib
+#lib kopieren
+	ln -sf $(PROJECT_NAME).so.$(VERSION) $(PROJECT_NAME).so 
+	cp -f $(PROJECT_NAME).so.$(VERSION) $(STAGE)/pack/$(PROJECT_NAME)/usr/local/lib/$(PROJECT_NAME).so.$(VERSION)
+	mv -f $(PROJECT_NAME).so $(STAGE)/pack/$(PROJECT_NAME)/usr/local/lib/$(PROJECT_NAME).so
+#header Dateien kopieren
+	rm -fR $(STAGE)/pack/$(PROJECT_NAME)/usr/local/include/$(PROJECT_NAME)
+	mkdir -p $(STAGE)/pack/$(PROJECT_NAME)/usr/local/include/$(PROJECT_NAME)
+	cp *.h $(STAGE)/pack/$(PROJECT_NAME)/usr/local/include/$(PROJECT_NAME)
+#package erzeugen
+	tar czf $(PROJECT_NAME).$(VERSION).tar.gz -C $(STAGE)/pack/$(PROJECT_NAME) usr
