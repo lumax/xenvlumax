@@ -1,6 +1,6 @@
 #!/bin/bash
 CURRENT_DIR=$PWD
-WORK_DIR="$HOME/xenvlumax"
+WORK_DIR=`cat work-dir`
 cd $WORK_DIR
 
 export LUMAX_EXT="c"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source $HOME/xenvlumax/env.sh
+WDIR=`cat work-dir`
+source $WDIR/env.sh
 
 export LUMAX_EXT="cpp"
 export LUMAX_COMPILER="g++"
