@@ -19,7 +19,7 @@ LDFLAGS+=
 
 OBJS+= $(PROJECT_NAME).o 
 
-.cc.o:
+.c.cc.o:
 	$(rm) $@
 	$(CXX) $(CPPFLAGS) -c $*.cc
 	@$(GREAT_CODE) -file-$*.cc
