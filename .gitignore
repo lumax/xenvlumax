@@ -11,3 +11,5 @@ src
 stage
 eldk-root
 eldk-fs
+bfin-fs
+work-dir
