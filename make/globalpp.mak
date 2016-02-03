@@ -17,7 +17,8 @@ CPPFLAGS+= $(DEFINES) -Wall
 LDFLAGS+= 
 
 
-OBJS+= $(PROJECT_NAME).o 
+OBJS+=
+#$(PROJECT_NAME).o
 
 .c.cc.o:
 	$(rm) $@
