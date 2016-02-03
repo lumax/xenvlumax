@@ -31,7 +31,7 @@ if [ ! -d $tmp ]; then
 mkdir -p $tmp; fi
 
 
-export CFLAGS='-isystem '$ELDK_FS'/usr/local/include -isystem '$ELDK_FS'/usr/include/freetype2 '
+export CFLAGS='-isystem '$ELDK_FS'/usr/local/include -isystem '$ELDK_FS'/usr/include/freetype2 -isystem '$ELDK_FS'/usr/include'
 export LDFLAGS='-L'$LIB_DIR' -L'$ELDK_FS'/lib -L'$ELDK_FS'/usr/lib -L'$ELDK_FS'/usr/local/lib -Wl,-rpath-link -Wl,'$ELDK_FS'/usr/local/lib -L'$ELDK_FS'/usr/local/lib  -Wl,-rpath-link -Wl,'$LIB_DIR 
 
 CPPFLAGS=$CFLAGS 
